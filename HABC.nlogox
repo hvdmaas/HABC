@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<model version="NetLogo 7.0.3" snapToGrid="false">
+<model version="NetLogo 7.0.4" snapToGrid="false">
   <code><![CDATA[turtles-own [
   attention
   information
@@ -50,8 +50,8 @@ to go
       [
         set attention min list 1 (attention + da)   ; increase attnetion due to interaction (eq. 6a)
         ask neigh [set attention min list 1 (A_n + da)] ; also in neighbor
-        set information new_information information I_n attention A_n ; udpate information (eq 7a)
-        ask neigh [set information new_information I_n I A_n attention] ; also in neighbor
+        set information new_information I I_n attention ([attention] of neigh) ; update information (eq 7a)
+        ask neigh [set information new_information I_n I attention ([attention] of myself)] ; also in neighbor
       ]
     ]
   ]
@@ -354,10 +354,44 @@ to setup-meat-eating-vegaterian ; paramter settings meat eating vegetarian scana
  recolor visualize
 end]]></code>
   <widgets>
-    <view x="195" wrappingAllowedX="true" y="10" frameRate="30.0" minPycor="-19" height="359" showTickCounter="true" patchSize="10.0" fontSize="10" wrappingAllowedY="true" width="359" tickCounterLabel="ticks" maxPycor="19" updateMode="0" maxPxcor="19" minPxcor="-19"></view>
-    <button x="20" y="13" height="40" disableUntilTicks="false" forever="true" kind="Observer" width="76">go</button>
-    <slider x="15" step="1" y="83" max="100" width="175" display="%active_agents" height="50" min="0" direction="Horizontal" default="80.0" variable="%active_agents"></slider>
-    <plot x="678" autoPlotX="true" yMax="10.0" autoPlotY="true" y="17" xMin="-1.0" height="175" legend="false" xMax="1.0" yMin="0.0" width="307" display="Opinion">
+    <view x="195" wrappingAllowedX="true" y="11" frameRate="30.0" minPycor="-19" height="394" showTickCounter="true" patchSize="10.0" fontSize="10" wrappingAllowedY="true" width="394" tickCounterLabel="ticks" maxPycor="19" updateMode="0" maxPxcor="19" minPxcor="-19"></view>
+    <slider x="1243" step=".01" y="496" max="1" width="250" display="p-connect" height="50" min="0" direction="Horizontal" default="0.12" variable="p-connect"></slider>
+    <chooser x="1243" y="554" height="60" variable="topology" current="0" display="topology" width="250" sizeVersion="0">
+      <choice type="string" value="Lattice"></choice>
+      <choice type="string" value="Erdős-Rényi"></choice>
+      <choice type="string" value="Preferential-attachment"></choice>
+    </chooser>
+    <chooser x="1243" y="622" height="60" variable="model" current="0" display="model" width="250" sizeVersion="0">
+      <choice type="string" value="cusp"></choice>
+      <choice type="string" value="MF Ising"></choice>
+      <choice type="string" value="MF Blume Capel"></choice>
+    </chooser>
+    <slider x="1243" step="1" y="689" max="500" width="250" display="nr-nodes" height="50" min="2" direction="Horizontal" default="1521.0" variable="nr-nodes"></slider>
+    <button x="11" y="454" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="155">perturbate-activists</button>
+    <note x="14" y="566" backgroundDark="-1" fontSize="18" width="150" markdown="false" height="40" textColorDark="-16777216" textColorLight="-1" backgroundLight="-16777216">HABC PRESETS</note>
+    <note x="14" y="619" backgroundDark="0" fontSize="12" width="150" markdown="false" height="60" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Case 1:  alpha (external-caution) depolarizing society</note>
+    <button x="26" y="682" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="127">setup-habc1</button>
+    <button x="26" y="815" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="127">setup-habc2</button>
+    <note x="38" y="315" backgroundDark="0" fontSize="11" width="108" markdown="false" height="20" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">(Click in world)</note>
+    <button x="14" y="277" height="35" disableUntilTicks="false" forever="true" kind="Observer" width="157">add-activists</button>
+    <button x="13" y="229" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="159">setup-black-pete</button>
+    <note x="7" y="193" backgroundDark="0" fontSize="14" width="171" markdown="false" height="29" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Black Pete simulation</note>
+    <note x="1275" y="444" backgroundDark="-1" fontSize="24" width="427" markdown="false" height="43" textColorDark="-16777216" textColorLight="-1" backgroundLight="-16777216">DIY Setup - Custom initialization</note>
+    <slider x="1518" step=".01" y="495" max="1" width="250" display="mean-init-attention" height="50" min="0" direction="Horizontal" default="0.5" variable="mean-init-attention"></slider>
+    <slider x="1517" step=".001" y="556" max=".2" width="252" display="sd-init-attention" height="50" min="0" direction="Horizontal" default="0.0" variable="sd-init-attention"></slider>
+    <slider x="1517" step=".01" y="617" max="1" width="253" display="mean-init-information" height="50" min="-1" direction="Horizontal" default="0.0" variable="mean-init-information"></slider>
+    <slider x="1518" step=".001" y="678" max=".5" width="251" display="sd-init-information" height="50" min="0" direction="Horizontal" default="0.2" variable="sd-init-information"></slider>
+    <slider x="1518" step=".01" y="739" max="1" width="250" display="min-init-caution" height="50" min="0" direction="Horizontal" default="0.0" variable="min-init-caution"></slider>
+    <slider x="1517" step=".01" y="796" max="1" width="252" display="max-init-caution" height="50" min="0" direction="Horizontal" default="0.0" variable="max-init-caution"></slider>
+    <note x="3" y="369" backgroundDark="0" fontSize="14" width="170" markdown="false" height="44" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Meat eating vegetarian simulation</note>
+    <button x="11" y="411" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="154">setup-meat-eating-vegaterian</button>
+    <chooser x="595" y="7" height="74" variable="visualize" current="0" width="175" display="visualize">
+      <choice type="string" value="opinion"></choice>
+      <choice type="string" value="attention"></choice>
+      <choice type="string" value="information"></choice>
+      <choice type="string" value="caution"></choice>
+    </chooser>
+    <plot x="192" autoPlotX="true" yMax="10.0" autoPlotY="true" y="433" xMin="-1.0" height="215" legend="false" xMax="1.0" yMin="0.0" width="333" display="Opinion">
       <setup></setup>
       <update></update>
       <pen interval="0.1" mode="1" display="opinion" color="-16777216" legend="true">
@@ -365,29 +399,7 @@ end]]></code>
         <update>histogram [opinion] of turtles</update>
       </pen>
     </plot>
-    <plot x="678" autoPlotX="true" yMax="10.0" autoPlotY="true" y="205" xMin="0.0" height="175" legend="false" xMax="1.0" yMin="0.0" width="307" display="Attention">
-      <setup></setup>
-      <update></update>
-      <pen interval="0.02" mode="1" display="attention" color="-16777216" legend="true">
-        <setup></setup>
-        <update>histogram [attention] of turtles</update>
-      </pen>
-    </plot>
-    <slider x="15" step=".001" y="138" max=".4" width="172" display="da" height="50" min="0" direction="Horizontal" default="0.02" variable="da"></slider>
-    <slider x="13" step=".001" y="226" max="1" width="172" display="rmin" height="50" min="0" direction="Horizontal" default="0.0" variable="rmin"></slider>
-    <slider x="13" step=".1" y="281" max="5" width="172" display="p" height="50" min="0" direction="Horizontal" default="3.0" variable="p"></slider>
-    <slider x="12" step=".001" y="336" max="1" width="172" display="decay_I" height="50" min="0" direction="Horizontal" default="1.0" variable="decay_I"></slider>
-    <button x="110" y="12" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="73">go</button>
-    <slider x="12" step=".001" y="446" max=".2" width="172" display="sd-noise-information" height="50" min="0" direction="Horizontal" default="0.0" variable="sd-noise-information"></slider>
-    <note x="19" y="203" backgroundDark="0" fontSize="11" width="150" markdown="false" height="18" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Information parameters</note>
-    <note x="22" y="64" backgroundDark="0" fontSize="11" width="150" markdown="false" height="18" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Attention parameters</note>
-    <slider x="11" step=".001" y="532" max=".1" width="172" display="sd-noise-opinion" height="50" min="0" direction="Horizontal" default="0.001" variable="sd-noise-opinion"></slider>
-    <slider x="10" step=".001" y="587" max=".1" width="172" display="time-step" height="50" min="0" direction="Horizontal" default="0.01" variable="time-step"></slider>
-    <slider x="195" step=".01" y="500" max="1" width="193" display="mean-init-information" height="50" min="-1" direction="Horizontal" default="0.0" variable="mean-init-information"></slider>
-    <slider x="496" step=".01" y="499" max="1" width="175" display="mean-init-attention" height="50" min="0" direction="Horizontal" default="0.5" variable="mean-init-attention"></slider>
-    <slider x="498" step=".001" y="554" max=".2" width="172" display="sd-init-attention" height="50" min="0" direction="Horizontal" default="0.0" variable="sd-init-attention"></slider>
-    <slider x="12" step="0.001" y="391" max=".25" width="173" display="m-noise-information" height="50" min="-.25" direction="Horizontal" default="0.0" variable="m-noise-information"></slider>
-    <plot x="993" autoPlotX="true" yMax="10.0" autoPlotY="true" y="17" xMin="-1.0" height="175" legend="false" xMax="1.0" yMin="0.0" width="310" display="Information">
+    <plot x="191" autoPlotX="true" yMax="10.0" autoPlotY="true" y="657" xMin="-1.0" height="215" legend="false" xMax="1.0" yMin="0.0" width="333" display="Information">
       <setup></setup>
       <update></update>
       <pen interval="0.02" mode="1" display="Information" color="-16777216" legend="true">
@@ -395,7 +407,23 @@ end]]></code>
         <update>histogram [information] of turtles</update>
       </pen>
     </plot>
-    <plot x="998" autoPlotX="true" yMax="0.5" autoPlotY="true" y="204" xMin="0.0" height="178" legend="true" xMax="10.0" yMin="-0.5" width="303" display="means">
+    <plot x="533" autoPlotX="true" yMax="10.0" autoPlotY="true" y="657" xMin="0.0" height="215" legend="false" xMax="1.0" yMin="0.0" width="333" display="Attention">
+      <setup></setup>
+      <update></update>
+      <pen interval="0.02" mode="1" display="attention" color="-16777216" legend="true">
+        <setup></setup>
+        <update>histogram [attention] of turtles</update>
+      </pen>
+    </plot>
+    <plot x="874" autoPlotX="true" yMax="10.0" autoPlotY="true" y="657" xMin="0.0" height="215" legend="false" xMax="1.0" yMin="0.0" width="333" display="local variance opinion">
+      <setup></setup>
+      <update></update>
+      <pen interval="0.1" mode="1" display="opinion" color="-16777216" legend="true">
+        <setup></setup>
+        <update>histogram [v] of turtles</update>
+      </pen>
+    </plot>
+    <plot x="535" autoPlotX="true" yMax="0.5" autoPlotY="true" y="433" xMin="0.0" height="215" legend="true" xMax="10.0" yMin="-0.5" width="333" display="means">
       <setup></setup>
       <update></update>
       <pen interval="1.0" mode="0" display="O" color="-16777216" legend="true">
@@ -411,45 +439,7 @@ end]]></code>
         <update>plot mean [information] of turtles</update>
       </pen>
     </plot>
-    <chooser x="1314" y="18" height="60" variable="visualize" current="0" width="138" display="visualize">
-      <choice type="string" value="opinion"></choice>
-      <choice type="string" value="attention"></choice>
-      <choice type="string" value="information"></choice>
-      <choice type="string" value="caution"></choice>
-    </chooser>
-    <monitor x="1315" precision="17" y="89" height="60" fontSize="11" width="102" display="%active agents">precision (100 * actives / count turtles) 1</monitor>
-    <chooser x="683" y="395" height="60" variable="model" current="2" width="250" display="model">
-      <choice type="string" value="cusp"></choice>
-      <choice type="string" value="MF Ising"></choice>
-      <choice type="string" value="MF Blume Capel"></choice>
-    </chooser>
-    <slider x="197" step=".001" y="563" max=".5" width="192" display="sd-init-information" height="50" min="0" direction="Horizontal" default="0.2" variable="sd-init-information"></slider>
-    <note x="16" y="509" backgroundDark="0" fontSize="11" width="150" markdown="false" height="18" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Opinion parameters</note>
-    <note x="26" y="649" backgroundDark="0" fontSize="11" width="150" markdown="false" height="27" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Caution</note>
-    <button x="397" y="505" height="93" disableUntilTicks="false" forever="false" kind="Observer" width="92">setup</button>
-    <slider x="194" step=".01" y="620" max="1" width="194" display="min-init-caution" height="50" min="0" direction="Horizontal" default="0.0" variable="min-init-caution"></slider>
-    <slider x="494" step=".01" y="614" max="1" width="175" display="max-init-caution" height="50" min="0" direction="Horizontal" default="0.0" variable="max-init-caution"></slider>
-    <slider x="11" step=".02" y="676" max="1" width="200" display="external-caution" height="50" min="0" direction="Horizontal" default="0.0" variable="external-caution"></slider>
-    <slider x="12" step=".01" y="740" max="3" width="250" display="variance-effect-alpha" height="50" min="0" direction="Horizontal" default="0.0" variable="variance-effect-alpha"></slider>
-    <slider x="683" step=".01" y="580" max="1" width="250" display="p-connect" height="50" min="0" direction="Horizontal" default="0.06" variable="p-connect"></slider>
-    <slider x="686" step="1" y="524" max="500" width="250" display="nr-nodes" height="50" min="2" direction="Horizontal" default="1521.0" variable="nr-nodes"></slider>
-    <chooser x="686" y="457" height="60" variable="topology" current="0" width="250" display="topology">
-      <choice type="string" value="Lattice"></choice>
-      <choice type="string" value="Erdős-Rényi"></choice>
-      <choice type="string" value="Preferential-attachment"></choice>
-    </chooser>
-    <note x="299" y="751" backgroundDark="0" fontSize="11" width="150" markdown="false" height="19" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Black Pete simulation</note>
-    <note x="297" y="797" backgroundDark="0" fontSize="11" width="150" markdown="false" height="37" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Meat eating vegetarion
-simulation</note>
-    <button x="462" y="798" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="180">setup-meat-eating-vegaterian</button>
-    <button x="461" y="745" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="139">setup-black-pete</button>
-    <button x="664" y="800" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="155">perturbate-activists</button>
-    <button x="620" y="749" height="35" disableUntilTicks="false" forever="true" kind="Observer" width="106">add-activists</button>
-    <note x="730" y="755" backgroundDark="0" fontSize="11" width="173" markdown="false" height="20" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Click in world</note>
-    <slider x="831" step=".01" y="796" max="5" width="155" display="bound" height="50" min="0" direction="Horizontal" default="10.0" variable="bound"></slider>
-    <note x="1004" y="800" backgroundDark="0" fontSize="11" width="150" markdown="false" height="45" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">set to 10 if not 
-bounded</note>
-    <plot x="1007" autoPlotX="true" yMax="10.0" autoPlotY="true" y="399" xMin="0.0" height="175" legend="false" xMax="1.0" yMin="0.0" width="307" display="Caution">
+    <plot x="877" autoPlotX="true" yMax="10.0" autoPlotY="true" y="433" xMin="0.0" height="215" legend="false" xMax="1.0" yMin="0.0" width="333" display="Caution">
       <setup></setup>
       <update></update>
       <pen interval="0.1" mode="1" display="opinion" color="-16777216" legend="true">
@@ -457,29 +447,43 @@ bounded</note>
         <update>histogram [caution] of turtles</update>
       </pen>
     </plot>
-    <plot x="1013" autoPlotX="true" yMax="10.0" autoPlotY="true" y="576" xMin="0.0" height="175" legend="false" xMax="1.0" yMin="0.0" width="307" display="local variance opinion">
-      <setup></setup>
-      <update></update>
-      <pen interval="0.1" mode="1" display="opinion" color="-16777216" legend="true">
-        <setup></setup>
-        <update>histogram [v] of turtles</update>
-      </pen>
-    </plot>
-    <button x="383" y="684" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="116">setup-default</button>
-    <button x="1380" y="397" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="127">setup-habc1</button>
-    <note x="1373" y="230" backgroundDark="0" fontSize="12" width="150" markdown="false" height="165" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Simulation presets for the paper abou the the Blume Capel model for Opinion dynamics. 
-Case 1: Increasing alpha (external-caution) depolarizes a polarized society</note>
-    <note x="1379" y="447" backgroundDark="0" fontSize="12" width="150" markdown="false" height="75" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">
-Case 2: Caution depens on local variance in opinion</note>
-    <button x="1383" y="535" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="127">setup-habc2</button>
+    <monitor x="594" precision="17" y="342" height="60" fontSize="11" display="%active agents" width="176" sizeVersion="0">precision (100 * actives / count turtles) 1</monitor>
+    <note x="19" y="734" backgroundDark="0" fontSize="12" width="129" markdown="false" height="74" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">
+Case 2: Caution depends on local variance in opinion</note>
+    <slider x="812" step=".001" y="100" max=".4" width="197" display="da" height="50" min="0" direction="Horizontal" default="0.02" variable="da"></slider>
+    <slider x="1058" step=".1" y="99" max="5" width="219" display="p" height="50" min="0" direction="Horizontal" default="3.0" variable="p"></slider>
+    <slider x="1057" step=".001" y="156" max="1" width="220" display="decay_I" height="50" min="0" direction="Horizontal" default="1.0" variable="decay_I"></slider>
+    <slider x="1060" step="0.001" y="213" max=".25" width="214" display="m-noise-information" height="50" min="-.25" direction="Horizontal" default="0.0" variable="m-noise-information"></slider>
+    <slider x="1058" step=".001" y="269" max=".2" width="218" display="sd-noise-information" height="50" min="0" direction="Horizontal" default="0.0" variable="sd-noise-information"></slider>
+    <slider x="1058" step=".001" y="41" max="1" width="219" display="rmin" height="50" min="0" direction="Horizontal" default="0.0" variable="rmin"></slider>
+    <slider x="1297" step=".02" y="41" max="1" width="248" display="external-caution" height="50" min="0" direction="Horizontal" default="0.0" variable="external-caution"></slider>
+    <note x="1303" y="5" backgroundDark="0" fontSize="16" width="150" markdown="false" height="25" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Caution</note>
+    <note x="807" y="3" backgroundDark="0" fontSize="16" width="206" markdown="false" height="29" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Attention parameters</note>
+    <note x="1057" y="3" backgroundDark="0" fontSize="16" width="220" markdown="false" height="28" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Information parameters</note>
+    <slider x="1298" step=".01" y="99" max="3" width="250" display="variance-effect-alpha" height="50" min="0" direction="Horizontal" default="0.0" variable="variance-effect-alpha"></slider>
+    <note x="811" y="166" backgroundDark="0" fontSize="16" width="196" markdown="false" height="31" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">Opinion parameters</note>
+    <slider x="811" step=".001" y="253" max=".1" width="196" display="time-step" height="50" min="0" direction="Horizontal" default="0.01" variable="time-step"></slider>
+    <slider x="812" step=".001" y="200" max=".1" width="194" display="sd-noise-opinion" height="50" min="0" direction="Horizontal" default="0.001" variable="sd-noise-opinion"></slider>
+    <slider x="811" step="1" y="42" max="100" width="198" display="%active_agents" height="50" min="0" direction="Horizontal" default="80.0" variable="%active_agents"></slider>
+    <button x="595" y="121" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="175" display="Go (Single Step)">go</button>
+    <slider x="811" step=".01" y="306" max="5" width="196" display="bound" height="50" min="0" direction="Horizontal" default="10.0" variable="bound"></slider>
+    <note x="811" y="356" backgroundDark="0" fontSize="12" width="196" markdown="false" height="48" textColorDark="-1" textColorLight="-16777216" backgroundLight="0">(pre-set to 10 if not manually bounded)</note>
+    <button x="595" y="168" height="40" disableUntilTicks="false" forever="true" kind="Observer" width="175" display="Go (Continuous)">go</button>
+    <button x="1372" y="750" height="93" disableUntilTicks="false" forever="false" kind="Observer" width="95">setup</button>
+    <button x="1256" y="750" height="93" disableUntilTicks="false" forever="false" kind="Observer" width="95" display="Clear all">clear-all</button>
+    <button x="9" y="15" height="35" disableUntilTicks="false" forever="false" kind="Observer" width="176" display="Clear all">clear-all</button>
+    <note x="17" y="147" backgroundDark="-1" fontSize="18" width="150" markdown="false" height="40" textColorDark="-16777216" textColorLight="-1" backgroundLight="-16777216">HIOM PRESETS</note>
+    <button x="23" y="78" height="40" disableUntilTicks="false" forever="false" kind="Observer" width="137">setup-default</button>
   </widgets>
   <info><![CDATA[## WHAT IS IT?
 
-This is an implementation of the Hierarchical Ising Opinion Model (HIOM).
+This is an implementation of the Hierarchical Ising Opinion Model (HIOM), extended with a Blume-Capel opinion rule and caution (HABC).
 
 van der Maas, H. L. J., Dalege, J., & Waldorp, L. J. (2020). The polarization within and across individuals: The hierarchical Ising opinion model. Journal of Complex Networks, 8, cnaa010.
 
-The opinion of agents is modeled by a stochastic (cusp) differential function in which attention and information are the control variables of the cusp. Agents interact and influence both attention and information. Due to hysteresis within agents, this leads to new explanations of polarization.
+In the original HIOM (the cusp model in this implementation), the opinion of agents is modeled by a stochastic (cusp) differential function in which attention and information are the control variables of the cusp. Agents interact and influence both attention and information. Due to hysteresis within agents, this leads to new explanations of polarization.
+
+This implementation offers three opinion rules: cusp (the original HIOM), MF Ising (mean-field Ising) and MF Blume Capel (mean-field Blume-Capel). The Blume-Capel rule adds a neutral position whose attraction depends on the agent's caution. Agents can be placed on a lattice or on a random network.
 
 The cusp model of the individual is derived from the Ising attitude model, described in
 
@@ -502,22 +506,30 @@ Iterate
   * Randomly choose a set of agents, weighted with attention A (modified eq. 5).
   * Iterate over these agents.
     * Randomly choose a neighbour of the agent i as partner j in the interaction.
-    * Add attention to both agents i and j (modified eq.6a).
-    * Exchange information (modified eq.7).
+    * If the opinions of i and j differ by less than bound:
+        * Add attention to both agents i and j (modified eq.6a).
+        * Exchange information (modified eq.7).
   * Apply decay in A to all agents (modified eq. 6b).
   * Add noise and apply decay in I to all agents (modified eq. 7b).
-  * Update opinion O in all agents (eq. 4).
+  * Update opinion O in all agents (eq. 4, 4b or 4c, depending on the model chooser). With MF Blume Capel, caution C is updated first (eq. 8).
 
 (4)    O<sub>i,t+1</sub> =     O<sub>i,t</sub> - (O<sub>i,t</sub> <sup>3</sup> - (A<sub>i,t</sub>+A<sup>min</sup>) O<sub>i,t</sub> - I<sub>i,t</sub> ) t<sub>s</sub> + N(0,s<sub>O</sub>)
+(4b)    O<sub>i,t+1</sub> =     O<sub>i,t</sub> + 5 (tanh(2 A<sub>i,t</sub> (O<sub>i,t</sub> + .5 I<sub>i,t</sub>)) - O<sub>i,t</sub>) t<sub>s</sub> + N(0,s<sub>O</sub>)
+(4c)    O<sub>i,t+1</sub> =     O<sub>i,t</sub> + (2f sinh(x) / (1 + 2f cosh(x)) - O<sub>i,t</sub>) t<sub>s</sub> + N(0,s<sub>O</sub>), where x = 3 A<sub>i,t</sub> (O<sub>i,t</sub> + .5 I<sub>i,t</sub>) and f = e^(-3 A<sub>i,t</sub> C<sub>i,t</sub><sup>2</sup>)
 (5)    Pr(select agent<sub>i,t</sub> ) = A<sub>i,t</sub>
 (6a)    A<sub>i,t+1</sub>= min⁡(1,A<sub>i,t</sub>+ d<sub>A</sub>)
 (6b)    A<sub>i,t+1</sub>= decay<sub>A</sub>  A<sub>i,t</sub>
 (7a)    I<sub>i,t+1</sub>=r I<sub>i,t</sub>+(1-r) I<sub>j,t</sub>, where r=rmin+(1-rmin)/(1+e^(-p(A<sub>i</sub>-A<sub>j</sub>)) )
 (7b)    I<sub>i,t+1</sub>=decay<sub>I</sub>  (I<sub>i,t</sub>+Ν(m<sub>I</sub>,s<sub>I</sub>))
+(8)    C<sub>i,t</sub> = c<sub>ext</sub> + c<sub>i</sub> + α v<sub>i,t</sub>, where v<sub>i,t</sub> is the variance of the opinions of i and its neighbours
 
-Where t<sub>s</sub>  = .01, A<sup>min</sup> = -.5
+Where t<sub>s</sub> is the time-step slider (default .01), A<sup>min</sup> = -.5
 
-O is opinion, A is attention, I is information
+
+
+decay<sub>A</sub> is not a slider. It is adjusted every iteration so that the share of active agents moves towards %active_agents (see HOW TO USE IT).
+
+O is opinion, A is attention, I is information, C is caution
 
 and parameters (set by sliders):
 m<sub>I</sub>     = mean noise information (external field)
@@ -527,32 +539,48 @@ p      = persuasion
 rmin   = minimal resistance
 decay<sub>I</sub> = decay information
 s<sub>O</sub>     = sd noise opinion
+t<sub>s</sub>     = time step
+bound  = maximum opinion difference for an interaction (bounded confidence)
+c<sub>ext</sub>   = external-caution
+c<sub>i</sub>     = personal starting caution, drawn uniformly between min-init-caution and max-init-caution
+α      = variance-effect-alpha
 
 
 
 ## HOW TO USE IT
 
-SETUP sets the agents to values determined by mean-init-information, sd-init-information, mean-init-attention, sd-init-attention. 
+SETUP builds the network chosen with topology and sets the agents to values determined by mean-init-information, sd-init-information, mean-init-attention, sd-init-attention, min-init-caution and max-init-caution. **NOTE: Before starting a new run, always click Clear all. This clears the world and any Preset-specific behavior, but be aware it preserves any sliders and choosers that are not overwritten by a Preset (if one is chosen).**
+
 GO starts the simulation.
 
+The model chooser selects the opinion rule: cusp (eq. 4, the original HIOM), MF Ising (eq. 4b) or MF Blume Capel (eq. 4c). Only MF Blume Capel uses the caution sliders.
+
+The topology chooser selects the network: Lattice (a 39 x 39 grid that wraps at the edges, so every agent has 4 neighbours), Erdős-Rényi (nr-nodes agents, each pair linked with probability p-connect) or Preferential-attachment (each agent links to one random other agent; this is not a true preferential attachment network). nr-nodes is ignored for the Lattice and capped at 500 for the other two.
+
 The sliders set parameters of the main equations for attention, information, and opinion (see HOW IT WORKS).
-The %active-agents slider influences how many agents will be active in each interaction. %active-agents affects the decay of attention (decay_I). 
 
-Visualize can be set to opinion, attention, information.
+The %active_agents slider sets the intended share of agents that are active in each iteration. The model adjusts the decay of attention (decay_A) to move towards it. It can speed up, slow, or stop the decay, but cannot raise attention, so when attention is low the actual share stays below the target. The %active agents monitor shows the actual share.
 
-The histograms show the distribution of opinion, attention and information.
+Visualize can be set to opinion, attention, information, caution.
+
+The histograms show the distribution of opinion, attention, information, caution and local variance in opinion. Local variance is only calculated with MF Blume Capel.
 The mean plot shows the change of the mean of opinion, attention of information.
 
-setup-black-pete is used to set the parameters to the value required for the Black-Pete simulation described in the HIOM 2021 paper. In this scenario, activists are added to a conservative community with low attention. If attention grows too quickly, polarization will result. Click on add-activist to allow activists to be added with mouse clicks.
+setup-habc1 and setup-habc2 are the presets for the paper on the Blume-Capel model. Both use the Lattice and MF Blume Capel. In setup-habc1 (Case 1), external-caution rises from 0 to 1 over 3,200 ticks. In setup-habc2 (Case 2), external-caution stays at 0 and variance-effect-alpha rises by .001 per tick to 3, so caution depends on the local variance in opinion.
 
-setup-meat-eating-vegetarian is used to set the parameters to the value required for the meat-eating vegetarian simulation described in the HIOM 2021 paper. In this simulation, the bound is set low, meaning that agents that are too different will not interact. 
-By clicking Perturb-Activists, some activists are perturbed to the meat-eating opinion, but their information position does not change. They can now influence the meat-eaters, which leads to a slow change to the vegaterian position.
+setup-black-pete is used to set the parameters to the value required for the Black-Pete simulation described in the HIOM paper. In this scenario, activists are added to a conservative community with zero attention. If attention grows too quickly, polarization will result. Click on add-activists to allow activists to be added with mouse clicks.
+
+setup-meat-eating-vegaterian is used to set the parameters to the value required for the meat-eating vegetarian simulation described in the HIOM paper. In this simulation, the bound is set low, meaning that agents that are too different will not interact. 
+
+By clicking perturbate-activists, half of the agents with a negative opinion (the activists) are perturbed to the meat-eating opinion, but their information position does not change. They can now influence the meat-eaters, which leads to a slow change to the vegaterian position.
+
+setup-black-pete and setup-meat-eating-vegaterian do not set the model, topology or caution sliders. Set model to cusp to run them as in the HIOM paper.
 
 ## THINGS TO NOTICE
 
 Polarization due to hysteresis (simulation 1 in the HIOM paper):
 
-In the standard setup, you can see that high attention (set %active-agent high) leads to polarization. If you now decrease the difference in information (set decay_I to .5), the polarization remains even if the difference in underlying information is 0. Only if you also decrease attention (set %active-agents low), the polarization disappears. 
+In the standard setup (setup-default with model set to cusp), you can see that high attention (set %active_agents high) leads to polarization. If you now decrease the difference in information (set decay_I to .5), the polarization remains even if the difference in underlying information is 0. Only if you also decrease attention (set %active_agents low), the polarization disappears. 
 
 Opposition to activism: the case of Black Pete (simulation 2 in the HIOM paper):
 See HOW TO USE IT
@@ -567,17 +595,28 @@ The mean noise information function as an external field. Test if varying this p
 
 Test the robustness of the 3 simulations by adjusting model parameters with the sliders.
 
-In the Black Pete simulation activist are more succesful when attention changes slowly. Adjust da and %active-agents to test this.
+In the Black Pete simulation activist are more succesful when attention changes slowly. Adjust da and %active_agents to test this.
 
-In the meat-eating vegetarian simulation, the pertubation only works when attention is relatively low. Test this by setting  %active-agents high.
+In the meat-eating vegetarian simulation, the pertubation only works when attention is relatively low. Test this by setting  %active_agents high.
 
-## EXTENDING THE MODEL
+HABC Case 1: As external-caution rises, watch whether the two polarised peaks in the Opinion histogram give way to a central, neutral peak.
 
-Set-up the model in a preferential atttachment network
+HABC Case 2: As variance-effect-alpha rises, watch how the opinion distribution changes as caution becomes more strongly linked to disagreement between neighbours.
+
 
 ## CREDITS AND REFERENCES
 
-van der Maas, H. L. J., Dalege, J., & Waldorp, L. J. (2020). The polarization within and across individuals: The hierarchical Ising opinion model. Journal of Complex Networks, 8, cnaa010.]]></info>
+A more extensive, plain-language guide can be found at https://github.com/hvdmaas/HABC.
+
+van der Maas, H. L. J., Dalege, J., & Waldorp, L. J. (2020). The polarization within and across individuals: The hierarchical Ising opinion model. Journal of Complex Networks, 8, cnaa010.
+
+Dalege, J., & van der Maas, H. L. J. (2020). Accurate by being noisy: A formal network model of implicit measures of attitudes. Social Cognition, 38, S26-S41.
+
+Dalege, J., Borsboom, D., van Harreveld, F., & van der Maas, H. L. J. (2019). A network perspective on attitude strength: Testing the connectivity hypothesis. Social Psychological and Personality Science, 10, 746-756.
+
+Dalege, J., Borsboom, D., van Harreveld, F., & van der Maas, H. L. J. (2018). The Attitudinal Entropy (AE) Framework as a General Theory of Individual Attitudes. Psychological Inquiry, 29, 175-193.
+
+Dalege, J., Borsboom, D., van Harreveld, F., van den Berg, H., Conner, M., & van der Maas, H. L. J. (2016). Toward a formalized account of attitudes: The Causal Attitude Network (CAN) model. Psychological Review, 123, 2-22.]]></info>
   <turtleShapes>
     <shape name="default" rotatable="true" editableColorIndex="0">
       <polygon color="-1920102913" filled="true" marked="true">
